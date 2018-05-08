@@ -6,7 +6,9 @@ var methodOverride = require('method-override');
 var request = require('request');
 var google = require('googleapis');
 var readProperties = require('./services/readPropertiesService.js')();
-var data = require('./services/configuredData.js')();
+var chartData = require('./services/chartData.js')();
+var timeChartData = require('./services/timeChartData.js')();
+var errorChartData = require('./services/errorChartData.js')();
 
 // configuration
 app.use(express.static(__dirname + '/public'));
@@ -19,10 +21,12 @@ app.use(methodOverride());
 
 // routes =================================
 
-app.get("/api/getData", function(req, res){
-    console.log("DATA IN COMING");
-    console.log(data);
-    res.send(data);
+app.get("/api/chartingData", function(req, res){
+   res.send(chartData);
+});
+
+app.get("/api/timeChartData", function(req, res){
+   res.send(timeChartData);
 });
 
 // application -------------------------------------
