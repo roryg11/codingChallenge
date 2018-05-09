@@ -2,11 +2,6 @@
     var data;
     var chartData;
     var timeData;
-    $.ajax('/api/getData').then(function(response){
-        data = response;
-    }, function(error){
-        console.log('Error: ' + error);
-    });
 
     $.ajax('/api/chartingData').then(function(response){
         chartData = response;
