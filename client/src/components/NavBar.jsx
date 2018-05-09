@@ -3,9 +3,9 @@ import React from 'react';
 const NavBar = (props) => {
 	return (
 		<div class="navbar">
-			<button>Group by artist</button>
+			<button onClick={() => {props.selectChart('Listens by artist')}}>Group by artist</button>
 			<br/>
-			<button>Listens per week</button>
+			<button onClick={() => {props.selectChart('Listens per week')}}>Listens per week</button>
 				
 		</div>
 		)

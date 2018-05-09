@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/NavBar.jsx';
-import Chart from './components/Chart.jsx';
+import LineChartComponent from './components/LineChart.jsx';
+import BarChartComponent from './components/BarChart.jsx';
 
 
 
 class App extends React.Component {
 	constructor(props){
 		super(props);
-		this.state = {};
+		this.state = {
+			chartData: undefined,
+			timeChartData: undefined
+		};
 	}
 
 	componentDidMount() {
@@ -21,13 +25,19 @@ class App extends React.Component {
 		.then(body => this.setState({timeChartData: body}));
 	}
 
+	handleChartSelection(type) {
+		this.setState({chartType: type})
+	}
+
 	render() {
 		return (
-			<div class="mainContainer">
-				<NavBar />
-				<div>
-					<h1> React is working </h1>
-				<Chart />
+			<div class="appContainer">
+				<h1> Music Preferences Data </h1>
+				<div class="navContainer">
+					<NavBar selectChart={this.handleChartSelection.bind(this)}/>
+				</div>
+				<div class="mainContainer">
+					<BarChartComponent artistInfo={this.state.chartData}/>
 				</div>
 			</div>
 		)
