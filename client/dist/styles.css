@@ -1,0 +1,10 @@
+.mainContainer {
+	height: 100%;
+}
+.navbar {
+	float: left;
+	display: flex;
+	background-color: blue;
+	width: 150px;
+	height: 200px
+}

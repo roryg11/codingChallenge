@@ -9,9 +9,10 @@ var readProperties = require('./services/readPropertiesService.js')();
 var chartData = require('./services/chartData.js')();
 var timeChartData = require('./services/timeChartData.js')();
 var errorChartData = require('./services/errorChartData.js')();
+var path = require('path');
 
 // configuration
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client/dist'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({'extended': 'true'}));
 app.use(bodyParser.json());
@@ -22,7 +23,7 @@ app.use(methodOverride());
 // routes =================================
 
 app.get("/api/chartingData", function(req, res){
-   res.send(chartData);
+   res.json(chartData)
 });
 
 app.get("/api/timeChartData", function(req, res){
@@ -31,7 +32,8 @@ app.get("/api/timeChartData", function(req, res){
 
 // application -------------------------------------
 app.get("/home", function(req,res){
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+
 });
 
 app.listen(7060);
