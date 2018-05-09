@@ -5,20 +5,19 @@ body {
 }
 
 h1 {
+	margin: 15px;
 	color: white;
 
 }
 
 .appContainer {
-	margin: auto;
+	
 	width: 100%;
 }
 
 .chart {
-
 	border: solid 2px black;
 	height: 400px;
-	
 	float: right;
 }
 
@@ -44,4 +43,8 @@ h1 {
 
 .navContainer {
 
+}
+
+.secondaryContainer {
+	margin-left: 403px;
 }
