@@ -39,6 +39,10 @@ class App extends React.Component {
 				<div class="mainContainer">
 					<BarChartComponent artistInfo={this.state.chartData}/>
 				</div>
+					<br/>
+				<div class="secondaryContainer">
+					<LineChartComponent weeklyPlays={this.state.timeChartData}/>
+				</div>		
 			</div>
 		)
 	}
