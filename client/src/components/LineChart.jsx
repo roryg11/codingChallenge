@@ -20,7 +20,7 @@ const LineChartComponent = (props) => {
        <CartesianGrid strokeDasharray="3 3"/>
        <Tooltip/>
        <Legend />
-       <Line type="monotone" dataKey="target" stroke="#8884d8" activeDot={{r: 8}}/>
+       <Line type="monotone" dataKey="target" stroke="#ff0000" />
        <Line type="monotone" dataKey="number of listens" stroke="#82ca9d" />
       </LineChart>
     );

@@ -16,6 +16,10 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
+		this.fetchData();
+	}
+
+	fetchData() {
 		fetch('/api/chartingData')
 		.then(response => response.json())
 		.then(body => this.setState({chartData: body}));
@@ -29,6 +33,10 @@ class App extends React.Component {
 		this.setState({chartType: type})
 	}
 
+	organizeChartBy(criteria, data) {
+		console.log(criteria, data)
+	}
+
 	render() {
 		return (
 			<div class="appContainer">
@@ -36,11 +44,11 @@ class App extends React.Component {
 				<div class="navContainer">
 					<NavBar selectChart={this.handleChartSelection.bind(this)}/>
 				</div>
-				<div class="mainContainer">
+				<div class="chartContainer">
 					<BarChartComponent artistInfo={this.state.chartData}/>
 				</div>
 					<br/>
-				<div class="secondaryContainer">
+				<div class="chartContainer secondary">
 					<LineChartComponent weeklyPlays={this.state.timeChartData}/>
 				</div>		
 			</div>

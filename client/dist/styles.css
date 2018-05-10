@@ -12,7 +12,7 @@ h1 {
 
 .appContainer {
 	
-	width: 100%;
+
 }
 
 .chart {
@@ -21,8 +21,8 @@ h1 {
 	float: right;
 }
 
-.mainContainer {
-	margin: 25px;
+.chartContainer {
+	margin-left: 12%;
 	background-color: white;
 	border: 2px white solid;
 	border-radius: 5px;
@@ -32,8 +32,13 @@ h1 {
 	align-items: center;
 }
 
+.controlButton {
+	height: 50px;
+	margin: 5px;
+}
+
 .navbar {
-	margin: 15px;
+	margin-left: 25px;
 	float: left;
 	display: flex;
 	flex-direction: column;
@@ -45,6 +50,7 @@ h1 {
 
 }
 
-.secondaryContainer {
-	margin-left: 403px;
+.secondary {
+	margin-left: 12%;
+	margin-bottom: 25px;
 }
