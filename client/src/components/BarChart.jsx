@@ -5,7 +5,8 @@ class BarChartComponent extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			organizationCriteria: this.props.organizationCriteria
+			organizationCriteria: 'alphabetical',
+			chartData: []
 		}
 	}
 
@@ -38,23 +39,38 @@ class BarChartComponent extends React.Component {
 	}
 
 	alphabeticalSort(a, b) {
-		return a[0].toLowerCase() > b[0].toLowerCase() ? -1 : 1;
+		if (a.name[0].toLowerCase() > b.name[0].toLowerCase()){
+			return 1;
+		} else if (a.name[0].toLowerCase() > b.name[0].toLowerCase()) {
+			return -1;
+		} else {
+			return 0
+		}
 	}
 
 	render() {
+		let data = this.state.chartData.slice();
 		return (
-			<BarChart width={900} height={400} data={this.state.chartData}
-            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-       <CartesianGrid strokeDasharray="3 3"/>
-       <XAxis dataKey="name"/>
-       <YAxis/>
-       <Tooltip/>
-       <Legend />
-       <Bar dataKey="total listens" fill="#82ca9d" />
-      </BarChart>
+			<div class="chartComponent">
+				<BarChart width={900} height={400} data={data}
+	            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+	       <CartesianGrid strokeDasharray="3 3"/>
+	       <XAxis dataKey="name"/>
+	       <YAxis/>
+	       <Tooltip/>
+	       <Legend />
+	       <Bar dataKey="total listens" fill="#82ca9d" />
+	      </BarChart>
+	      <div class="buttonContainer">
+		      <button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
+					<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}>Organize alphabetically</button>
+				</div>
+			</div>
 		)
 	}
 }
 
 
 export default BarChartComponent;
+
+

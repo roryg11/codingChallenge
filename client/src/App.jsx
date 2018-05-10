@@ -12,7 +12,7 @@ class App extends React.Component {
 		this.state = {
 			chartData: undefined,
 			timeChartData: undefined,
-			organizationCriteria: 'frequencyOfListen'
+			organizationCriteria: 'alphabetical'
 		};
 	}
 
@@ -20,11 +20,8 @@ class App extends React.Component {
 		this.setState({chartType: type})
 	}
 
-	organizeChartBy(criteria, data) {
-		console.log(criteria, data)
-	}
-
 	render() {
+
 		return (
 			<div class="appContainer">
 				<h1> Music Preferences Data </h1>
@@ -32,7 +29,7 @@ class App extends React.Component {
 					<NavBar selectChart={this.handleChartSelection.bind(this)}/>
 				</div>
 				<div class="chartContainer">
-					<BarChartComponent organizationCriteria={this.state.organizationCriteria} />
+					<BarChartComponent />
 				</div>
 					<br/>
 				<div class="chartContainer secondary">
