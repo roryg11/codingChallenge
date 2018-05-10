@@ -11,22 +11,9 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			chartData: undefined,
-			timeChartData: undefined
+			timeChartData: undefined,
+			organizationCriteria: 'frequencyOfListen'
 		};
-	}
-
-	componentDidMount() {
-		this.fetchData();
-	}
-
-	fetchData() {
-		fetch('/api/chartingData')
-		.then(response => response.json())
-		.then(body => this.setState({chartData: body}));
-
-		fetch('/api/timeChartData')
-		.then(response => response.json())
-		.then(body => this.setState({timeChartData: body}));
 	}
 
 	handleChartSelection(type) {
@@ -45,7 +32,7 @@ class App extends React.Component {
 					<NavBar selectChart={this.handleChartSelection.bind(this)}/>
 				</div>
 				<div class="chartContainer">
-					<BarChartComponent artistInfo={this.state.chartData}/>
+					<BarChartComponent organizationCriteria={this.state.organizationCriteria} />
 				</div>
 					<br/>
 				<div class="chartContainer secondary">
