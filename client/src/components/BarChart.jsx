@@ -50,6 +50,17 @@ class BarChartComponent extends React.Component {
 		)
 	}
 
+	updateSearchValue(event) {
+		this.state.query = event.target.value;
+	}
+
+	search() {
+		let query = this.state.query;
+		this.state.chartData.find(record => {
+			if (record.name === query) console.log(record['total listens'])
+		})
+	}
+
 	render() {
 		let data = this.state.sortedChartData || this.state.chartData.slice();
 
@@ -68,7 +79,10 @@ class BarChartComponent extends React.Component {
 				      </BarChart>
 	      			<div class="buttonContainer">
 		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
-								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}>Organize alphabetically</button>
+								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
+								<br/>
+								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue.bind(this)}></input>
+								<button class="controlButton" onClick={this.search.bind(this)}> Search for artist </button>
 							</div>
 						</div>
 					}

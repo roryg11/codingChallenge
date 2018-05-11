@@ -94,11 +94,12 @@ class LineChartComponent extends React.Component {
             <div class="dateInput">
               <span>From: </span>
               <DayPickerInput class="dateInput" id="from" onDayChange={(day) => this.setState({dayFrom: day})}/>
-              <span>To: </span> 
-              <DayPickerInput class="dateInput" id="to" onDayChange={(day) => this.setState({dayTo: day})}/> 
+              <br/>
+              <span id="to">To: </span> 
+              <DayPickerInput class="dateInput" onDayChange={(day) => this.setState({dayTo: day})}/> 
             </div>
-            <button class="controlButton" onClick={() => {this.filterRange()}}>Find in range</button>
-            <button class="controlButton" onClick={() => {this.resetRange()}}>Show all dates</button>
+            <button class="controlButton" onClick={this.filterRange}>Find in range</button>
+            <button class="controlButton" onClick={this.resetRange}>Show all dates</button>
           </div>
           <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>
             <div class="modalErrorMessage"> { this.state.modalMessage } </div>

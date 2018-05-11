@@ -1,13 +1,27 @@
 body {
-	display: flex;
-	flex-direction: column;	
 	background-color: #39464e;
 }
 
 h1 {
-	margin: 15px;
+	margin-left: 40%;
+	margin-top: 25px;
+	margin-bottom: 25px;
 	color: white;
+}
 
+#searchField {
+	height: 55px;
+	margin-top: 7px;
+}
+
+#to {
+	margin-left: 18px;
+}
+
+.appContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .buttonContainer {
@@ -22,7 +36,6 @@ h1 {
 
 .chartContainer {
 	box-shadow: 10px 5px 5px #14252f;
-	margin-left: 12%;
 	background-color: white;
 	border: 2px white solid;
 	border-radius: 5px;
@@ -30,6 +43,12 @@ h1 {
 	height: 500px;
 	display: flex;
 	align-items: center;
+}
+
+.chartSelectionButton {
+	width: 50%;
+	font-size: x-large;
+	transition: all .2s ease-in-out;
 }
 
 .controlButton {
@@ -40,13 +59,13 @@ h1 {
 	font-size: medium;
 }
 
-.controlButton:hover {
-	transform: scale(1.1);
+.controlButton:hover, .chartSelectionButton:hover {
+	transform: scale(1.0);
 	box-shadow: 5px 3px 3px #14252f
 }
 
 .dateInput {
-	margin: 20px;
+	margin: 15px;
 }
 
 .errorNotice {
@@ -62,13 +81,10 @@ h1 {
 }
 
 .navbar {
-	margin-left: 25px;
-	float: left;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	background-color: white;
-	width: 160px;
-	height: 125px;
+	width: 1000px;
+	height: 75px;
 	box-shadow: 10px 5px 5px #14252f;
 }
-

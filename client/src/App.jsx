@@ -20,16 +20,18 @@ class App extends React.Component {
 	render() {
 
 		return (
-			<div class="appContainer">
+			<div>
 				<h1> Music Preferences Data </h1>
-				<div class="navContainer">
-					<NavBar selectChart={this.handleChartSelection.bind(this)}/>
-				</div>
-				<div class="chartContainer">
-				  { this.state.chartType === 'Listens by artist'
-					? <BarChartComponent />
-					:	<LineChartComponent />
-					}		
+				<div class="appContainer">
+					<div class="navContainer">
+						<NavBar selectChart={this.handleChartSelection.bind(this)}/>
+					</div>
+					<div class="chartContainer">
+					  { this.state.chartType === 'Listens per week'
+						?	<LineChartComponent />
+						: <BarChartComponent />
+						}		
+					</div>
 				</div>
 			</div>
 		)
