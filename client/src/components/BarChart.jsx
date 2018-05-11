@@ -1,23 +1,27 @@
 import React from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 
 class BarChartComponent extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
 			organizationCriteria: 'alphabetical',
+			showResults: false,
+			ordering: 'descending',
 			chartData: []
 		}
 
 		this.search = this.search.bind(this);
 		this.updateSearchValue = this.updateSearchValue.bind(this);
+		this.frequencySort = this.frequencySort.bind(this);
 	}
 
 	componentDidMount() {
 		fetch('/api/chartingData')
 		.then(response => response.json())
 		.then(body => {
-			let data = body.data.map(entry => {
+			const data = body.data.map(entry => {
 				return {name: entry.displayables[0].displayInfo.name, 'total listens': entry.value}
 			});
 			this.setState({chartData: data});
@@ -26,6 +30,19 @@ class BarChartComponent extends React.Component {
 			console.log(error);
 			this.setState({error: true});
 		});
+	}
+
+	alphabeticalSort(a, b) {
+		return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+	}
+	
+	frequencySort(a, b) {
+		if (this.state.ordering === 'descending') {
+			return a['total listens'] > b['total listens'] ? -1 : 1;
+		}
+		if (this.state.ordering === 'ascending') {
+			return a['total listens'] > b['total listens'] ? 1 : -1;
+		}
 	}
 
 	organizeBy(criteria) {
@@ -38,15 +55,7 @@ class BarChartComponent extends React.Component {
 			sortedData = this.state.chartData.slice().sort(this.alphabeticalSort);
 		}
 
-		this.setState({sortedChartData: sortedData})
-	}
-
-	frequencySort(a, b) {
-		return a['total listens'] > b['total listens'] ? -1 : 1;
-	}
-
-	alphabeticalSort(a, b) {
-		return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+		this.setState({sortedChartData: sortedData, ordering: this.state.ordering === 'ascending' ? 'descending' : 'ascending'})
 	}
 
 	renderErrorMessage() {
@@ -55,15 +64,25 @@ class BarChartComponent extends React.Component {
 		)
 	}
 
-	updateSearchValue(event) {
-		this.state.query = event.target.value;
-	}
 
 	search() {
-		let query = this.state.query;
+
+		const query = this.state.query;
 		this.state.chartData.find(record => {
-			if (record.name.toLowerCase() === query.toLowerCase()) console.log(record['total listens'])
+			if (record.name.toLowerCase() === query.toLowerCase()) {
+				this.setState({showResults: true, query: record.name, queryResults: record['total listens']}); 
+			} 
 		})
+	}
+
+	showResults() {
+		return (
+			<div class="searchResults"> You've listened to {this.state.query} {this.state.queryResults} times </div> 
+		)
+	}
+
+	updateSearchValue(event) {
+		this.state.query = event.target.value;
 	}
 
 	render() {
@@ -83,12 +102,17 @@ class BarChartComponent extends React.Component {
 					      <Bar dataKey="total listens" fill="#82ca9d" />
 				      </BarChart>
 	      			<div class="buttonContainer">
-		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
+		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}>
+		      			 Organize by listen count {this.state.ordering === 'ascending' 
+		      			 ? <Glyphicon glyph="upload"></Glyphicon>
+		      			 :<Glyphicon glyph="download"></Glyphicon> 
+		      			}</button>
 								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
 								<br/>
 								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
 								<button class="controlButton" onClick={this.search}> Search for artist </button>
 							</div>
+									{ this.state.showResults ? this.showResults() : null}
 						</div>
 					}
 			</div>

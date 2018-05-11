@@ -30,8 +30,29 @@ class LineChartComponent extends React.Component {
   }
 
   formatDate(unixTimestamp) {
-    let readableDate = new Date(unixTimestamp);
+    const readableDate = new Date(unixTimestamp);
     return readableDate.toString().split(' ').slice(0, 4).join(' ');
+  }
+
+
+  formatResponse(body) {
+    return body.map(entry => {
+      const formattedDate = this.formatDate(entry.date);
+      return {dateString: formattedDate, 'number of listens': entry.value, target: 400, unixDate: entry.date};
+    });
+  }
+
+
+  onCloseModal() {
+    this.setState({
+      modalOpen: false
+    });
+  }
+
+  onOpenModal() {
+    this.setState({
+      modalOpen: true
+    });
   }
 
   rangeIsValid() {
@@ -40,6 +61,12 @@ class LineChartComponent extends React.Component {
     } else {
       this.setState({modalOpen: true, modalMessage: 'Please select date range.'})
     }
+  }
+
+  renderErrorMessage() {
+    return (
+      <span class="errorNotice">Error retrieving data from server. Please try again later.</span>
+    )
   }
 
   requestDates() {
@@ -55,40 +82,15 @@ class LineChartComponent extends React.Component {
       })
       .catch(error => {
         this.setState({error: true});
-        console.log(error)
+        console.log(error);
       })
     } else {
       this.setState({modalOpen: true, modalMessage: 'Invalid date range. Please check the dates and try again.'}); 
     }
   }
 
-  formatResponse(body) {
-    return body.map(entry => {
-      let formattedDate = this.formatDate(entry.date);
-      return {dateString: formattedDate, 'number of listens': entry.value, target: 400, unixDate: entry.date}
-    });
-  }
-
   resetRange() {
     this.setState({filteredData: null});
-  }
-
-  onOpenModal() {
-    this.setState({
-      modalOpen: true
-    });
-  }
-
-  onCloseModal() {
-    this.setState({
-      modalOpen: false
-    });
-  }
-
-  renderErrorMessage() {
-    return (
-      <span class="errorNotice">Error retrieving data from server. Please try again later.</span>
-    )
   }
 
   render() {

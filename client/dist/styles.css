@@ -12,6 +12,7 @@ h1 {
 #searchField {
 	height: 55px;
 	margin-top: 7px;
+	text-align: center;
 }
 
 #to {
@@ -87,4 +88,9 @@ h1 {
 	width: 1000px;
 	height: 75px;
 	box-shadow: 10px 5px 5px #14252f;
+}
+
+.searchResults {
+
+	font-size: medium;
 }

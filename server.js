@@ -1,14 +1,14 @@
-var express = require('express');
-var app = express();
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var request = require('request');
-var chartData = require('./services/chartData.js')();
-var timeChartData = require('./services/timeChartData.js')();
-var errorChartData = require('./services/errorChartData.js')();
-var helper = require('./serverHelpers/helpers.js');
-var path = require('path');
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const request = require('request');
+const chartData = require('./services/chartData.js')();
+const timeChartData = require('./services/timeChartData.js')();
+const errorChartData = require('./services/errorChartData.js')();
+const helper = require('./serverHelpers/helpers.js');
+const path = require('path');
 
 // configuration
 app.use(express.static(__dirname + '/client/dist'));
@@ -30,7 +30,6 @@ app.get("/api/timeChartData/", (req, res) => {
 	let dataToSend;
 	let [dayFrom, dayTo] = [req.query.from, req.query.to];
 	if (dayFrom && dayTo) dataToSend = helper.filterByDate(dayFrom, dayTo, timeChartData);
-	console.log(dataToSend, timeChartData);
   res.json(dataToSend || timeChartData);
    // res.json(errorChartData)
 });
