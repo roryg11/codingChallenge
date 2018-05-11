@@ -4,8 +4,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var request = require('request');
-var google = require('googleapis');
-var readProperties = require('./services/readPropertiesService.js')();
 var chartData = require('./services/chartData.js')();
 var timeChartData = require('./services/timeChartData.js')();
 var errorChartData = require('./services/errorChartData.js')();
@@ -22,17 +20,19 @@ app.use(methodOverride());
 
 // routes =================================
 
-app.get("/api/chartingData", function(req, res){
-   res.json(chartData)
+app.get("/api/chartingData", (req, res) => {
+  res.json(chartData)
+	// res.json(errorChartData)
 });
 
-app.get("/api/timeChartData", function(req, res){
-   res.send(timeChartData);
+app.get("/api/timeChartData", (req, res) => {
+  res.json(timeChartData);
+   // res.json(errorChartData)
 });
 
 // application -------------------------------------
-app.get("/home", function(req,res){
-    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+app.get("/home", (req,res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 
 });
 
