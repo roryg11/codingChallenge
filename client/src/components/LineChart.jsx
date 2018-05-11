@@ -38,14 +38,16 @@ class LineChartComponent extends React.Component {
   filterRange() {
     if (this.state.dayFrom && this.state.dayTo) {
       if (this.state.dayFrom > this.state.dayTo) {
-        this.setState({modalOpen: true});
+        this.setState({modalOpen: true, modalMessage: 'Invalid date range. Please check the dates and try again.'});
       } else {
         let filteredDates = this.state.timeChartData.filter(date => {
-          let newDate = new Date(date.dateString);
-          if (newDate >= this.state.dayFrom && newDate <= this.state.dayTo) return newDate
+          let convertedDate = new Date(date.dateString);
+          if (convertedDate >= this.state.dayFrom && convertedDate <= this.state.dayTo) return convertedDate
         });
-        this.setState({filteredData: filteredDates});
+        filteredDates.length > 0 ? this.setState({filteredData: filteredDates}) : this.setState({modalOpen: true, modalMessage: 'No data in that range.'})
       }
+    } else {
+      this.setState({modalOpen: true, modalMessage: 'Please select date range.'})
     }
   }
 
@@ -99,7 +101,7 @@ class LineChartComponent extends React.Component {
             <button class="controlButton" onClick={() => {this.resetRange()}}>Show all dates</button>
           </div>
           <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>
-            <div class="modalErrorMessage">Invalid date range. Please check the dates and try again.</div>
+            <div class="modalErrorMessage"> { this.state.modalMessage } </div>
           </Modal>
         </div>
       }
