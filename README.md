@@ -11,5 +11,6 @@ User instructions:
          - Find all data between two dates (This option only works if two dates are selected and the 'date from' is earlier than the 'date to').
 
 Developer instructions:
+  - First run 'npm install' to ensure dependencies are met.
   - Simply run 'npm start'.
     - This script builds the webpack bundle and starts the node server. 
