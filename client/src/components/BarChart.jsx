@@ -112,9 +112,10 @@ class BarChartComponent extends React.Component {
 								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
 								<button class="controlButton" onClick={this.search}> Find <Glyphicon glyph="search"></Glyphicon> </button>
 							</div>
-									{ this.state.showResults ? this.showResults() : null}
 						</div>
 					}
+					<br/>
+					{ this.state.showResults ? this.showResults() : null }
 			</div>
 		)
 	}

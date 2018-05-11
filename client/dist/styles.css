@@ -41,7 +41,7 @@ h1 {
 	border: 2px white solid;
 	border-radius: 5px;
 	width: 1000px;
-	height: 500px;
+	height: 600px;
 	display: flex;
 	align-items: center;
 }
@@ -95,5 +95,9 @@ h1 {
 }
 
 .searchResults {
-	font-size: medium;
+	
+	text-align: center;
+	font-size: xx-large;
+	
+	
 }
