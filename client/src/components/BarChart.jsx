@@ -103,14 +103,14 @@ class BarChartComponent extends React.Component {
 				      </BarChart>
 	      			<div class="buttonContainer">
 		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}>
-		      			 Organize by listen count {this.state.ordering === 'ascending' 
-		      			 ? <Glyphicon glyph="upload"></Glyphicon>
-		      			 :<Glyphicon glyph="download"></Glyphicon> 
-		      			}</button>
+		      			  Organize by listen count {this.state.ordering === 'ascending' 
+		      			  ? <Glyphicon glyph="download"></Glyphicon>
+		      			  :<Glyphicon glyph="upload"></Glyphicon> }
+		      			</button>
 								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
 								<br/>
 								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
-								<button class="controlButton" onClick={this.search}> Search for artist </button>
+								<button class="controlButton" onClick={this.search}> Find <Glyphicon glyph="search"></Glyphicon> </button>
 							</div>
 									{ this.state.showResults ? this.showResults() : null}
 						</div>

@@ -75,6 +75,10 @@ h1 {
 	margin: 50px;
 }
 
+.glyph {
+	font-size: 50px;
+}
+
 .modalErrorMessage {
 	height: 30%;
 	width: 80%;
@@ -91,6 +95,5 @@ h1 {
 }
 
 .searchResults {
-
 	font-size: medium;
 }
