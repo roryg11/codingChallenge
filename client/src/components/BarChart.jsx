@@ -8,6 +8,9 @@ class BarChartComponent extends React.Component {
 			organizationCriteria: 'alphabetical',
 			chartData: []
 		}
+
+		this.search = this.search.bind(this);
+		this.updateSearchValue = this.updateSearchValue.bind(this);
 	}
 
 	componentDidMount() {
@@ -26,18 +29,20 @@ class BarChartComponent extends React.Component {
 	}
 
 	organizeBy(criteria) {
+		let sortedData;
 		if (criteria === 'frequencyOfListen') {
-			this.setState({sortedChartData: this.state.chartData});
+			sortedData = this.state.chartData.slice().sort(this.frequencySort);
 		}
 
 		if (criteria === 'alphabetical') {
-			let alphabeticalSort = this.state.chartData.slice().sort(this.alphabeticalSort);
-			this.setState({sortedChartData: alphabeticalSort});
+			sortedData = this.state.chartData.slice().sort(this.alphabeticalSort);
 		}
+
+		this.setState({sortedChartData: sortedData})
 	}
 
-	frequencyOfListenSort(a, b) {
-		return a['total listens'] > b['total listens'] ? 1: -1;
+	frequencySort(a, b) {
+		return a['total listens'] > b['total listens'] ? -1 : 1;
 	}
 
 	alphabeticalSort(a, b) {
@@ -57,12 +62,12 @@ class BarChartComponent extends React.Component {
 	search() {
 		let query = this.state.query;
 		this.state.chartData.find(record => {
-			if (record.name === query) console.log(record['total listens'])
+			if (record.name.toLowerCase() === query.toLowerCase()) console.log(record['total listens'])
 		})
 	}
 
 	render() {
-		let data = this.state.sortedChartData || this.state.chartData.slice();
+		const data = this.state.sortedChartData || this.state.chartData.slice();
 
 		return (
 			<div>
@@ -81,8 +86,8 @@ class BarChartComponent extends React.Component {
 		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
 								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
 								<br/>
-								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue.bind(this)}></input>
-								<button class="controlButton" onClick={this.search.bind(this)}> Search for artist </button>
+								<input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
+								<button class="controlButton" onClick={this.search}> Search for artist </button>
 							</div>
 						</div>
 					}

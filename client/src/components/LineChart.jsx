@@ -12,17 +12,16 @@ class LineChartComponent extends React.Component {
     this.state = {
       modalOpen: false
     }
+    this.requestDates = this.requestDates.bind(this);
+    this.resetRange = this.resetRange.bind(this);
   }
 
   componentDidMount() {
    fetch('/api/timeChartData')
    .then(response => response.json())
    .then(body => {
-      let data = body.data.map(entry => {
-        let formattedDate = this.formatDate(entry.date);
-        return {dateString: formattedDate, 'number of listens': entry.value, target: 400, unixDate: entry.date}
-      });
-      this.setState({timeChartData: data})
+      const data = this.formatResponse(body.data);
+      this.setState({timeChartData: data});
     })
    .catch(error => {
       this.setState({error: true});
@@ -35,20 +34,39 @@ class LineChartComponent extends React.Component {
     return readableDate.toString().split(' ').slice(0, 4).join(' ');
   }
 
-  filterRange() {
+  rangeIsValid() {
     if (this.state.dayFrom && this.state.dayTo) {
-      if (this.state.dayFrom > this.state.dayTo) {
-        this.setState({modalOpen: true, modalMessage: 'Invalid date range. Please check the dates and try again.'});
-      } else {
-        let filteredDates = this.state.timeChartData.filter(date => {
-          let convertedDate = new Date(date.dateString);
-          if (convertedDate >= this.state.dayFrom && convertedDate <= this.state.dayTo) return convertedDate
-        });
-        filteredDates.length > 0 ? this.setState({filteredData: filteredDates}) : this.setState({modalOpen: true, modalMessage: 'No data in that range.'})
-      }
+      return this.state.dayFrom < this.state.dayTo ? true : false;
     } else {
       this.setState({modalOpen: true, modalMessage: 'Please select date range.'})
     }
+  }
+
+  requestDates() {
+    if (this.rangeIsValid()) {
+      const dayFrom = new Date(this.state.dayFrom).getTime();
+      const dayTo = new Date(this.state.dayTo).getTime();
+      const urlWithParams = `api/timeChartData?from=${dayFrom}&to=${dayTo}`;
+      fetch(urlWithParams)
+      .then(response => response.json()) 
+      .then(body => {
+        const data = this.formatResponse(body);
+        data.length > 0 ? this.setState({filteredData: data}) : this.setState({modalOpen: true, modalMessage: 'No data in that range.'});
+      })
+      .catch(error => {
+        this.setState({error: true});
+        console.log(error)
+      })
+    } else {
+      this.setState({modalOpen: true, modalMessage: 'Invalid date range. Please check the dates and try again.'}); 
+    }
+  }
+
+  formatResponse(body) {
+    return body.map(entry => {
+      let formattedDate = this.formatDate(entry.date);
+      return {dateString: formattedDate, 'number of listens': entry.value, target: 400, unixDate: entry.date}
+    });
   }
 
   resetRange() {
@@ -75,12 +93,13 @@ class LineChartComponent extends React.Component {
 
   render() {
     const {modalOpen} = this.state;
+    const data = this.state.filteredData ? this.state.filteredData.slice() : this.state.timeChartData;
     return (
       <div>
       { this.state.error 
         ? this.renderErrorMessage()
         : <div class="chartComponent">
-          <LineChart width={900} height={400} data={this.state.filteredData || this.state.timeChartData}
+          <LineChart width={900} height={400} data={data}
               margin={{top: 5, right: 30, left: 20, bottom: 5}}>
            <XAxis dataKey="dateString"/>
            <YAxis/>
@@ -98,7 +117,7 @@ class LineChartComponent extends React.Component {
               <span id="to">To: </span> 
               <DayPickerInput class="dateInput" onDayChange={(day) => this.setState({dayTo: day})}/> 
             </div>
-            <button class="controlButton" onClick={this.filterRange}>Find in range</button>
+            <button class="controlButton" onClick={this.requestDates}>Find in range</button>
             <button class="controlButton" onClick={this.resetRange}>Show all dates</button>
           </div>
           <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>

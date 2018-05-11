@@ -7,6 +7,7 @@ var request = require('request');
 var chartData = require('./services/chartData.js')();
 var timeChartData = require('./services/timeChartData.js')();
 var errorChartData = require('./services/errorChartData.js')();
+var helper = require('./serverHelpers/helpers.js');
 var path = require('path');
 
 // configuration
@@ -25,8 +26,12 @@ app.get("/api/chartingData", (req, res) => {
 	// res.json(errorChartData)
 });
 
-app.get("/api/timeChartData", (req, res) => {
-  res.json(timeChartData);
+app.get("/api/timeChartData/", (req, res) => {
+	let dataToSend;
+	let [dayFrom, dayTo] = [req.query.from, req.query.to];
+	if (dayFrom && dayTo) dataToSend = helper.filterByDate(dayFrom, dayTo, timeChartData);
+	console.log(dataToSend, timeChartData);
+  res.json(dataToSend || timeChartData);
    // res.json(errorChartData)
 });
 
