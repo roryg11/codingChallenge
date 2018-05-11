@@ -2,9 +2,10 @@
     var data;
     var chartData;
     var timeData;
-
+    console.log('done')
     $.ajax('/api/chartingData').then(function(response){
-        chartData = response;
+        window.chartData = response;
+      
     }, function (error){
         console.log('Error' + error);
     });
