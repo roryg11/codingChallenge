@@ -10,11 +10,6 @@ h1 {
 
 }
 
-.appContainer {
-	
-
-}
-
 .buttonContainer {
 	display: flex;
 }
@@ -26,6 +21,7 @@ h1 {
 }
 
 .chartContainer {
+	box-shadow: 10px 5px 5px #14252f;
 	margin-left: 12%;
 	background-color: white;
 	border: 2px white solid;
@@ -39,6 +35,7 @@ h1 {
 .controlButton {
 	height: 50px;
 	margin: 5px;
+	border-radius: 5px;
 }
 
 .dateInput {
@@ -64,10 +61,7 @@ h1 {
 	flex-direction: column;
 	background-color: white;
 	height: 500px;
-}
-
-.navContainer {
-
+	box-shadow: 10px 5px 5px #14252f;
 }
 
 .secondary {
