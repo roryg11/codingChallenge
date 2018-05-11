@@ -5,13 +5,10 @@ import LineChartComponent from './components/LineChart.jsx';
 import BarChartComponent from './components/BarChart.jsx';
 
 
-
 class App extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			chartData: undefined,
-			timeChartData: undefined,
 			organizationCriteria: 'alphabetical'
 		};
 	}
@@ -21,7 +18,7 @@ class App extends React.Component {
 	}
 
 	render() {
-
+	  const {modalOpen} = this.state;
 		return (
 			<div class="appContainer">
 				<h1> Music Preferences Data </h1>

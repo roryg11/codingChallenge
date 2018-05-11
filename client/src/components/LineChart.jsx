@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
-
+import Modal from 'react-responsive-modal';
 
 
 class LineChartComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateRange: undefined
+      modalOpen: false
     }
   }
 
@@ -23,6 +23,10 @@ class LineChartComponent extends React.Component {
         return {dateString: formattedDate, 'number of listens': entry.value, target: 400, unixDate: entry.date}
       });
       this.setState({timeChartData: data})
+    })
+   .catch(error => {
+      this.setState({error: true});
+      console.log(error);
     });
   }
 
@@ -33,11 +37,15 @@ class LineChartComponent extends React.Component {
 
   filterRange() {
     if (this.state.dayFrom && this.state.dayTo) {
-      let filteredDates = this.state.timeChartData.filter(date => {
-        let newDate = new Date(date.dateString);
-        if (newDate >= this.state.dayFrom && newDate <= this.state.dayTo) return newDate
-      })
-      this.setState({filteredData: filteredDates})
+      if (this.state.dayFrom > this.state.dayTo) {
+        this.setState({modalOpen: true});
+      } else {
+        let filteredDates = this.state.timeChartData.filter(date => {
+          let newDate = new Date(date.dateString);
+          if (newDate >= this.state.dayFrom && newDate <= this.state.dayTo) return newDate
+        });
+        this.setState({filteredData: filteredDates});
+      }
     }
   }
 
@@ -45,29 +53,56 @@ class LineChartComponent extends React.Component {
     this.setState({filteredData: null});
   }
 
-  render() {
+  onOpenModal() {
+    this.setState({
+      modalOpen: true
+    });
+  }
+
+  onCloseModal() {
+    this.setState({
+      modalOpen: false
+    });
+  }
+
+  renderErrorMessage() {
     return (
-      <div class="chartComponent">
-        <LineChart width={900} height={400} data={this.state.filteredData || this.state.timeChartData}
-            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-         <XAxis dataKey="dateString"/>
-         <YAxis/>
-         <CartesianGrid strokeDasharray="3 3"/>
-         <Tooltip/>
-         <Legend />
-         <Line type="monotone" dataKey="target" stroke="#ff0000" />
-         <Line type="monotone" dataKey="number of listens" stroke="#82ca9d" />
-        </LineChart>
-        <div class="buttonContainer">
-          <div class="dateInput">
-            <span>From: </span>
-            <DayPickerInput class="dateInput" id="from" onDayChange={(day) => this.setState({dayFrom: day})}/>
-            <span>To: </span> 
-            <DayPickerInput class="dateInput" id="to" onDayChange={(day) => this.setState({dayTo: day})}/> 
+      <span class="errorNotice">Error retrieving data from server. Please try again later.</span>
+    )
+  }
+
+  render() {
+    const {modalOpen} = this.state;
+    return (
+      <div>
+      { this.state.error 
+        ? this.renderErrorMessage()
+        : <div class="chartComponent">
+          <LineChart width={900} height={400} data={this.state.filteredData || this.state.timeChartData}
+              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+           <XAxis dataKey="dateString"/>
+           <YAxis/>
+           <CartesianGrid strokeDasharray="3 3"/>
+           <Tooltip/>
+           <Legend />
+           <Line type="monotone" dataKey="target" stroke="#ff0000" />
+           <Line type="monotone" dataKey="number of listens" stroke="#82ca9d" />
+          </LineChart>
+          <div class="buttonContainer">
+            <div class="dateInput">
+              <span>From: </span>
+              <DayPickerInput class="dateInput" id="from" onDayChange={(day) => this.setState({dayFrom: day})}/>
+              <span>To: </span> 
+              <DayPickerInput class="dateInput" id="to" onDayChange={(day) => this.setState({dayTo: day})}/> 
+            </div>
+            <button class="controlButton" onClick={() => {this.filterRange()}}>Find in range</button>
+            <button class="controlButton" onClick={() => {this.resetRange()}}>Show all dates</button>
           </div>
-          <button class="controlButton" onClick={() => {this.filterRange()}}>Find in range</button>
-          <button class="controlButton" onClick={() => {this.resetRange()}}>Show all dates</button>
+          <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>
+            <div class="modalErrorMessage">Invalid date range. Please check the dates and try again.</div>
+          </Modal>
         </div>
+      }
       </div>
     )
   }

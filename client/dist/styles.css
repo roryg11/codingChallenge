@@ -42,8 +42,19 @@ h1 {
 }
 
 .dateInput {
-
 	margin-left: 15px;
+}
+
+.errorNotice {
+	font-size: xx-large;
+	color: #ff0000;
+	margin: 50px;
+}
+
+.modalErrorMessage {
+	height: 30%;
+	width: 80%;
+	font-size: x-large;
 }
 
 .navbar {

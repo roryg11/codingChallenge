@@ -16,55 +16,62 @@ class BarChartComponent extends React.Component {
 		.then(body => {
 			let data = body.data.map(entry => {
 				return {name: entry.displayables[0].displayInfo.name, 'total listens': entry.value}
-			})
+			});
 			this.setState({chartData: data});
+		})
+		.catch(error => {
+			console.log(error);
+			this.setState({error: true});
 		});
 	}
 
 	organizeBy(criteria) {
 		if (criteria === 'frequencyOfListen') {
-			let frequencySort = this.state.chartData.sort(function(a, b) {
-				return a['total listens'] - b['total listens'];
-			});
-			this.setState({chartData: frequencySort});
+			this.setState({sortedChartData: this.state.chartData});
 		}
+
 		if (criteria === 'alphabetical') {
-			let alphabeticalSort = this.state.chartData.sort(this.alphabeticalSort);
-			this.setState({chartData: alphabeticalSort});
+			let alphabeticalSort = this.state.chartData.slice().sort(this.alphabeticalSort);
+			this.setState({sortedChartData: alphabeticalSort});
 		}
 	}
 
 	frequencyOfListenSort(a, b) {
-		return a['total listens'] > b['total listens'] ? -1 : 1;
+		return a['total listens'] > b['total listens'] ? 1: -1;
 	}
 
 	alphabeticalSort(a, b) {
-		if (a.name[0].toLowerCase() > b.name[0].toLowerCase()){
-			return 1;
-		} else if (a.name[0].toLowerCase() > b.name[0].toLowerCase()) {
-			return -1;
-		} else {
-			return 0
-		}
+		return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+	}
+
+	renderErrorMessage() {
+		return (
+			<span class="errorNotice">Error retrieving data from server. Please try again later.</span>
+		)
 	}
 
 	render() {
-		let data = this.state.chartData.slice();
+		let data = this.state.sortedChartData || this.state.chartData.slice();
+
 		return (
-			<div class="chartComponent">
-				<BarChart width={900} height={400} data={data}
-	            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-	       <CartesianGrid strokeDasharray="3 3"/>
-	       <XAxis dataKey="name"/>
-	       <YAxis/>
-	       <Tooltip/>
-	       <Legend />
-	       <Bar dataKey="total listens" fill="#82ca9d" />
-	      </BarChart>
-	      <div class="buttonContainer">
-		      <button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
-					<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}>Organize alphabetically</button>
-				</div>
+			<div>
+				{ this.state.error 
+					? this.renderErrorMessage()
+					: <div class="chartComponent">
+							<BarChart width={900} height={400} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+					      <CartesianGrid strokeDasharray="3 3"/>
+					      <XAxis dataKey="name"/>
+					      <YAxis/>
+					      <Tooltip/>
+					      <Legend />
+					      <Bar dataKey="total listens" fill="#82ca9d" />
+				      </BarChart>
+	      			<div class="buttonContainer">
+		      			<button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}> Organize by listen count</button>
+								<button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}>Organize alphabetically</button>
+							</div>
+						</div>
+					}
 			</div>
 		)
 	}
