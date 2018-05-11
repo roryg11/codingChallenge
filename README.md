@@ -8,8 +8,7 @@ User instructions:
          - Search for a particular artist by name. 
     - "Listens per week": a line chart representing total number of listens on a week-by-week basis.
          - Show all available data.
-         - Find all data between two dates.
-                - This option only works if two dates are selected and the 'date from' is earlier than the 'date to'.
+         - Find all data between two dates (This option only works if two dates are selected and the 'date from' is earlier than the 'date to').
 
 Developer instructions:
   - Simply run 'npm start'.
