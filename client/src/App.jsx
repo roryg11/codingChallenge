@@ -6,36 +6,36 @@ import BarChartComponent from './components/BarChart.jsx';
 
 
 class App extends React.Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			organizationCriteria: 'alphabetical'
-		};
-	}
+  constructor(props){
+    super(props);
+    this.state = {
+      organizationCriteria: 'alphabetical'
+    };
+  }
 
-	handleChartSelection(type) {
-		this.setState({chartType: type})
-	}
+  handleChartSelection(type) {
+    this.setState({chartType: type})
+  }
 
-	render() {
+  render() {
 
-		return (
-			<div>
-				<h1> Music Preferences Data </h1>
-				<div class="appContainer">
-					<div class="navContainer">
-						<NavBar selectChart={this.handleChartSelection.bind(this)}/>
-					</div>
-					<div class="chartContainer">
-					  { this.state.chartType === 'Listens per week'
-						?	<LineChartComponent />
-						: <BarChartComponent />
-						}		
-					</div>
-				</div>
-			</div>
-		)
-	}
+    return (
+      <div>
+        <h1> Music Preferences Data </h1>
+        <div class="appContainer">
+          <div class="navContainer">
+            <NavBar selectChart={this.handleChartSelection.bind(this)}/>
+          </div>
+          <div class="chartContainer">
+            { this.state.chartType === 'Listens per week'
+            ? <LineChartComponent />
+            : <BarChartComponent />
+            }   
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 ReactDOM.render(<App/>, document.getElementById('app'));

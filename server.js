@@ -23,13 +23,13 @@ app.use(methodOverride());
 
 app.get("/api/chartingData", (req, res) => {
   res.json(chartData)
-	// res.json(errorChartData)
+  // res.json(errorChartData)
 });
 
 app.get("/api/timeChartData/", (req, res) => {
-	let dataToSend;
-	let [dayFrom, dayTo] = [req.query.from, req.query.to];
-	if (dayFrom && dayTo) dataToSend = helper.filterByDate(dayFrom, dayTo, timeChartData);
+  let dataToSend;
+  let [dayFrom, dayTo] = [req.query.from, req.query.to];
+  if (dayFrom && dayTo) dataToSend = helper.filterByDate(dayFrom, dayTo, timeChartData);
   res.json(dataToSend || timeChartData);
    // res.json(errorChartData)
 });
