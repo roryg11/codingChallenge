@@ -1,12 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const NavBar = (props) => {
-  return (
-    <div class="navbar">
-      <button class="chartSelectionButton" onClick={() => {props.selectChart('Listens by artist')}}>Listens per artist</button>
-      <button class="chartSelectionButton" onClick={() => {props.selectChart('Listens per week')}}>Listens per week</button>
-    </div>
-  )
+	return (
+		<div class="navbar">
+      <Link to="/bar">
+        <button class="chartSelectionButton">Listens per artist</button>
+      </Link>
+      <Link to="/line">
+        <button class="chartSelectionButton">Listens per week</button>
+      </Link>
+		</div>
+	)
 }
 
 export default NavBar;

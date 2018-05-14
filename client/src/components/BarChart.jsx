@@ -1,6 +1,7 @@
 import React from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
+import NavBar from './NavBar.jsx';
 
 class BarChartComponent extends React.Component {
   constructor(props){
@@ -98,30 +99,33 @@ class BarChartComponent extends React.Component {
 
     return (
       <div>
-        { this.state.error 
-          ? this.renderErrorMessage()
-          : <div class="chartComponent">
-              <BarChart width={900} height={400} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-                <CartesianGrid strokeDasharray="3 3"/>
-                <XAxis dataKey="name"/>
-                <YAxis/>
-                <Tooltip/>
-                <Legend />
-                <Bar dataKey="total listens" fill="#82ca9d" />
-              </BarChart>
-              <div class="buttonContainer">
-                <button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}>
-                  Organize by listen count {this.state.ordering === 'ascending' 
-                  ? <Glyphicon glyph="download"></Glyphicon>
-                  :<Glyphicon glyph="upload"></Glyphicon> }
-                </button>
-                <button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
-                <br/>
-                <input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
-                <button class="controlButton" onClick={this.search}> Find <Glyphicon glyph="search"></Glyphicon> </button>
+        <NavBar />
+        <div class="chartContainer">
+          { this.state.error 
+            ? this.renderErrorMessage()
+            : <div class="chartComponent">
+                <BarChart width={900} height={400} data={data} margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                  <CartesianGrid strokeDasharray="3 3"/>
+                  <XAxis dataKey="name"/>
+                  <YAxis/>
+                  <Tooltip/>
+                  <Legend />
+                  <Bar dataKey="total listens" fill="#82ca9d" />
+                </BarChart>
+                <div class="buttonContainer">
+                  <button class="controlButton" onClick={() => {this.organizeBy('frequencyOfListen')}}>
+                    Organize by listen count {this.state.ordering === 'ascending' 
+                    ? <Glyphicon glyph="download"></Glyphicon>
+                    :<Glyphicon glyph="upload"></Glyphicon> }
+                  </button>
+                  <button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
+                  <br/>
+                  <input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
+                  <button class="controlButton" onClick={this.search}> Find <Glyphicon glyph="search"></Glyphicon> </button>
+                </div>
               </div>
+            }
             </div>
-          }
           <br/>
           { this.state.showResults ? this.showResults() : null }
       </div>
