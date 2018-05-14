@@ -66,18 +66,26 @@ class BarChartComponent extends React.Component {
 
 
 	search() {
-
-		const query = this.state.query;
+		let queryResults;
+		let { query } = this.state;
 		this.state.chartData.find(record => {
 			if (record.name.toLowerCase() === query.toLowerCase()) {
-				this.setState({showResults: true, query: record.name, queryResults: record['total listens']}); 
+				queryResults = record['total listens'];
+				query = record.name
 			} 
 		})
+		this.setState({showResults: true, query: query, queryResults: queryResults || 0}); 
 	}
 
-	showResults() {
+	showResults() { // fix empty string problem here 
+		const { query, queryResults } = this.state;
 		return (
-			<div class="searchResults"> You've listened to {this.state.query} {this.state.queryResults} times </div> 
+			<div class="searchResults">
+			{ queryResults !== 0
+			 ? `You've listened to ${query} ${queryResults} times.`
+			 : `No data found for ${query}.`
+			}
+			 </div> 
 		)
 	}
 
