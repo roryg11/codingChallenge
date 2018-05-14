@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import NavBar from './components/NavBar.jsx';
 import LineChartComponent from './components/LineChart.jsx';
 import BarChartComponent from './components/BarChart.jsx';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 
 class App extends React.Component {
@@ -18,24 +19,21 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
       <div>
         <h1> Music Preferences Data </h1>
         <div class="appContainer">
-          <div class="navContainer">
-            <NavBar selectChart={this.handleChartSelection.bind(this)}/>
-          </div>
-          <div class="chartContainer">
-            { this.state.chartType === 'Listens per week'
-            ? <LineChartComponent />
-            : <BarChartComponent />
-            }   
-          </div>
+         <Router>
+            <Switch>
+              <Route exact path='/' component={NavBar} />
+              <Route path="/bar" component={BarChartComponent} />
+              <Route path="/line" component={LineChartComponent} />
+            </Switch>
+          </Router>
         </div>
       </div>
     )
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+ ReactDOM.render(<App />, document.getElementById('app'));

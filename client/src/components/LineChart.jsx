@@ -4,6 +4,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import Modal from 'react-responsive-modal';
+import NavBar from './NavBar.jsx';
 
 
 class LineChartComponent extends React.Component {
@@ -98,35 +99,38 @@ class LineChartComponent extends React.Component {
     const data = this.state.filteredData ? this.state.filteredData.slice() : this.state.timeChartData;
     return (
       <div>
-      { this.state.error 
-        ? this.renderErrorMessage()
-        : <div class="chartComponent">
-          <LineChart width={900} height={400} data={data}
-              margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-           <XAxis dataKey="dateString"/>
-           <YAxis/>
-           <CartesianGrid strokeDasharray="3 3"/>
-           <Tooltip/>
-           <Legend />
-           <Line type="monotone" dataKey="target" stroke="#ff0000" />
-           <Line type="monotone" dataKey="number of listens" stroke="#82ca9d" />
-          </LineChart>
-          <div class="buttonContainer">
-            <div class="dateInput">
-              <span>From: </span>
-              <DayPickerInput class="dateInput" id="from" onDayChange={(day) => this.setState({dayFrom: day})}/>
-              <br/>
-              <span id="to">To: </span> 
-              <DayPickerInput class="dateInput" onDayChange={(day) => this.setState({dayTo: day})}/> 
+        <NavBar />
+        <div class="chartContainer">
+        { this.state.error 
+          ? this.renderErrorMessage()
+          : <div class="chartComponent">
+            <LineChart width={900} height={400} data={data}
+                margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+             <XAxis dataKey="dateString"/>
+             <YAxis/>
+             <CartesianGrid strokeDasharray="3 3"/>
+             <Tooltip/>
+             <Legend />
+             <Line type="monotone" dataKey="target" stroke="#ff0000" />
+             <Line type="monotone" dataKey="number of listens" stroke="#82ca9d" />
+            </LineChart>
+            <div class="buttonContainer">
+              <div class="dateInput">
+                <span>From: </span>
+                <DayPickerInput class="dateInput" id="from" onDayChange={(day) => this.setState({dayFrom: day})}/>
+                <br/>
+                <span id="to">To: </span> 
+                <DayPickerInput class="dateInput" onDayChange={(day) => this.setState({dayTo: day})}/> 
+              </div>
+              <button class="controlButton" onClick={this.requestDates}>Find in range</button>
+              <button class="controlButton" onClick={this.resetRange}>Show all dates</button>
             </div>
-            <button class="controlButton" onClick={this.requestDates}>Find in range</button>
-            <button class="controlButton" onClick={this.resetRange}>Show all dates</button>
+            <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>
+              <div class="modalErrorMessage"> { this.state.modalMessage } </div>
+            </Modal>
           </div>
-          <Modal open={modalOpen} center="true" onClose={this.onCloseModal.bind(this)}>
-            <div class="modalErrorMessage"> { this.state.modalMessage } </div>
-          </Modal>
+        }
         </div>
-      }
       </div>
     )
   }
