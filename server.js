@@ -35,8 +35,9 @@ app.get("/api/timeChartData/", (req, res) => {
 });
 
 // application -------------------------------------
-app.get("/home", (req,res) => {
+app.get("*", (req,res) => {
   res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+  // client side rendering purposes only for simplicity
 
 });
 

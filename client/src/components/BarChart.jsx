@@ -1,5 +1,5 @@
 import React from 'react';
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import NavBar from './NavBar.jsx';
 
@@ -9,8 +9,9 @@ class BarChartComponent extends React.Component {
     this.state = {
       organizationCriteria: 'alphabetical',
       showResults: false,
-      ordering: 'descending',
-      chartData: []
+      ordering: 'ascending',
+      chartData: [],
+      query: undefined
     }
 
     this.search = this.search.bind(this);
@@ -66,16 +67,20 @@ class BarChartComponent extends React.Component {
   }
 
 
-  search() {
+  search(e) {
+    e.preventDefault();
     let queryResults;
     let { query } = this.state;
-    this.state.chartData.find(record => {
-      if (record.name.toLowerCase() === query.toLowerCase()) {
-        queryResults = record['total listens'];
-        query = record.name
-      } 
-    })
-    this.setState({showResults: true, query: query, queryResults: queryResults || 0}); 
+
+    if (query) {
+      this.state.chartData.find(record => {
+        if (record.name.toLowerCase() === query.toLowerCase()) {
+          queryResults = record['total listens'];
+          query = record.name
+        } 
+      })
+      this.setState({showResults: true, query: query, queryResults: queryResults || 0}); 
+    }
   }
 
   showResults() { // fix empty string problem here 
@@ -90,16 +95,28 @@ class BarChartComponent extends React.Component {
     )
   }
 
-  updateSearchValue(event) {
-    this.state.query = event.target.value;
+  isValidInput(input) {
+    const reducedInput = input.split('').reduce((accum, char) => {
+      if (!accum.includes(char)) accum.push(char);
+      return accum;
+    }, []);
+    if (reducedInput.length > 1 && reducedInput !== ' ') return true
+    return false
   }
 
+  updateSearchValue(event) {
+    const value = event.target.value;
+    this.state.query = this.isValidInput(value) ? value : undefined;
+  }
+
+
+
   render() {
-    const data = this.state.sortedChartData || this.state.chartData.slice();
+    const data = this.state.sortedChartData || this.state.chartData;
 
     return (
       <div>
-        <NavBar />
+ 
         <div class="chartContainer">
           { this.state.error 
             ? this.renderErrorMessage()
@@ -120,8 +137,10 @@ class BarChartComponent extends React.Component {
                   </button>
                   <button class="controlButton" onClick={() => {this.organizeBy('alphabetical')}}> Organize alphabetically </button>
                   <br/>
-                  <input type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
-                  <button class="controlButton" onClick={this.search}> Find <Glyphicon glyph="search"></Glyphicon> </button>
+                 <form>
+                    <input required type="text" id="searchField" placeholder="Artist name" onChange={this.updateSearchValue}></input>
+                    <button class="controlButton" onClick={ (e) => {this.search(e)}}> Find <Glyphicon glyph="search"></Glyphicon> </button>
+                 </form>
                 </div>
               </div>
             }
