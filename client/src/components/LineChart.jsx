@@ -94,12 +94,20 @@ class LineChartComponent extends React.Component {
     this.setState({filteredData: null});
   }
 
+  includeNavBar() {
+    return (
+      <div>
+        <NavBar />
+      </div>
+      )
+  }
+
   render() {
     const {modalOpen} = this.state;
     const data = this.state.filteredData ? this.state.filteredData.slice() : this.state.timeChartData;
     return (
       <div>
-        <NavBar />
+      
         <div class="chartContainer">
         { this.state.error 
           ? this.renderErrorMessage()

@@ -10,6 +10,9 @@ const NavBar = (props) => {
       <Link to="/line">
         <button class="chartSelectionButton">Listens per week</button>
       </Link>
+      <Link to="/composed">
+        <button class="chartSelectionButton">View both charts</button>
+      </Link>
 		</div>
 	)
 }
