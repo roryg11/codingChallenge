@@ -24,8 +24,8 @@ class App extends React.Component {
       <div>
         <h1> Music Preferences Data </h1>
         <div class="appContainer">
-         <Router>
-         <div>
+        <Router>
+          <div>
             <NavBar />
             <Switch>
               <Route path="/bar" component={BarChartComponent} />
@@ -33,7 +33,7 @@ class App extends React.Component {
               <Route path="/composed" component={ComposedChartComponent} />
             </Switch>
           </div>
-          </Router>
+        </Router>
         </div>
       </div>
     )
