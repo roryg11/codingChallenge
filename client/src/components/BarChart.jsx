@@ -2,6 +2,7 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import NavBar from './NavBar.jsx';
+import helper from '../../../componentHelpers/chartHelpers.js';
 
 class BarChartComponent extends React.Component {
   constructor(props){
@@ -35,16 +36,12 @@ class BarChartComponent extends React.Component {
   }
 
   alphabeticalSort(a, b) {
-    return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+    return helper.alphabeticalSort(a, b);
   }
   
-  frequencySort(a, b) {
-    if (this.state.ordering === 'descending') {
-      return a['total listens'] > b['total listens'] ? -1 : 1;
-    }
-    if (this.state.ordering === 'ascending') {
-      return a['total listens'] > b['total listens'] ? 1 : -1;
-    }
+  
+  frequencySort(a, b, order = this.state.ordering) {
+    return helper.frequencySort(a, b, order);
   }
 
   organizeBy(criteria) {
