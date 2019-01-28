@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Simple Backend",
   "main": "server.js",
-  "author": "Rory And Dana",
+  "author": "James",
   "scripts": {
     "start": "webpack && node server.js",
     "test": "mocha 'test/**/test-*.js'"
